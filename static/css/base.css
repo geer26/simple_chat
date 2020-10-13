@@ -1,0 +1,24 @@
+body{
+    background-image: url("/static/img/back.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    color: black;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: #000000;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+}
+
+.logo{
+    position: sticky;
+    top: 0;
+    display: block;
+    width: 100%;
+    z-index: 1;
+}
+
+.logoimg{
+    margin: auto;
+    width: 100%;
+}
