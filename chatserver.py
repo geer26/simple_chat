@@ -20,6 +20,12 @@ def req(data):
     print(data)
 
 
+@socket.on('greet')
+def greet(data):
+    print('SOMEBODY CONNECTED!')
+    emit('greet')
+
+
 #szerver indítása
 if __name__ == '__main__':
     app.run()
