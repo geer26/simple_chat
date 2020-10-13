@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Simple Chat</title>
+
     <!-- jquery és socket.io betöltése -->
     <script src="/static/js/query-3.5.1.min.js"></script>
     <script src="/static/js/socket.io.js"></script>
@@ -16,16 +17,19 @@
 <body>
     <!-- A logó helye. Ha lenne menu, itt  egy hely neki! -->
     <div id="logo" class="logo">
+        <!-- a logó kép -->
         <img src="/static/img/logo.png" class="logoimg">
     </div>
 
     <!-- az üzenetek tárolója -->
-    <div id="messages">
-        messages here
+    <div id="messages" class="messages">
+        <!-- ide pakolgatjuk az üzeneteket -->
     </div>
 
     <!-- a felhasználói input tárolója -->
-    <div id="actual message">
+    <div id="actual message" class="actual_message">
+        <!-- az üzenetküldés ikonja -->
+        <img src="/static/img/send.png" class="icon">
         type here!
     </div>
 

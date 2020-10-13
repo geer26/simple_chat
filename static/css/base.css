@@ -22,3 +22,57 @@ body{
     margin: auto;
     width: 100%;
 }
+
+.messages{
+    width: 90vw;
+    height: 30vh;
+    border: 1px solid black;
+    margin: auto;
+    display: block;
+    border-radius: 10px;
+    overflow: auto;
+    background-color: rgba(255,255,255,0.4);
+    padding: 5px;
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,1);
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+.messages:hover{
+    box-shadow: 0px 0px 15px 5px rgba(30,115,189,1);
+    border: 1px solid rgba(30,115,189,1);
+}
+
+.actual_message{
+    position: absolute;
+    left: 4.5vw;
+    width: 90vw;
+    height: 5vh;
+    border: 1px solid black;
+    margin: auto;
+    display: block;
+    border-radius: 10px;
+    overflow: visible;
+    background-color: rgba(255,255,255,0.4);
+    padding: 5px;
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,1);
+}
+
+.actual_message:hover{
+    box-shadow: 0px 0px 15px 5px rgba(30,115,189,1);
+    border: 1px solid rgba(30,115,189,1);
+}
+
+.icon{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 6vh;
+    transition: 0.3s;
+}
+
+.icon:hover{
+    height: 8vh;
+    top: -0.5vh;
+    right: -0.5vh;
+}
