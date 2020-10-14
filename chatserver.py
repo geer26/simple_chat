@@ -1,5 +1,5 @@
 #framework és a többi lom importálása
-from flask import Flask, render_template, json
+from flask import Flask, render_template, json, request, session
 import datetime
 
 
@@ -16,7 +16,7 @@ socket = SocketIO(app)
 
 
 #ebben fogjuk tárolni a felhasználóneveket és a session id-ket
-users = {}
+users = []
 
 
 #ellenőrzi, hogy a 'users' tárolóban létezik-e a paraméterként kapott név
@@ -35,21 +35,50 @@ def index():
 
 #asszinkron kérések kezelése
 
+#belépések kezelése
 @socket.on('login')
 def login(data):
-    print(data)
+    uname = data['username']
+
+    #ha nem létezik:
+    if not check_usernames(uname):
+        #minden rendben
+        data = json.dumps({'status':0})
+
+        #hozzáadjuk a felhasználót (a nevével és az SID-vel) a felhasználók listájához
+        usersession = {'username': uname, 'sid': request.sid}
+        users.append(usersession)
+
+        #elküldjük a kliensnek, hogy minden rendben
+        emit('login', data)
+
+    #ha létezik
+    else:
+        #hibaüzenetet küldünk
+        emit('error', render_template('errormessage.html', message='Válassz másik nevet!'))
 
 
+#hibaüzenet kérelmek kezelése
 @socket.on('req_error')
 def error(data):
+    #kinyerjük a hibaüzenetet
     message = data['message']
+    #lerendereljünk a hibaüzenet html kódját
     page = render_template('errormessage.html', message=message)
+    #elküldjük a kódot, a többit a kliens kezeli
     emit('error', page)
 
 
+#új üzenetek kezelése
 @socket.on('newmessage')
 def newmessage(data):
     print(data)
+
+
+#frissen belépett felhasználó
+@socket.on('req_username')
+def newuser(data):
+    pass
 
 
 #szerver indítása

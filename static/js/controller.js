@@ -38,12 +38,20 @@ socket.on('error', function(data){
 });
 
 
-//send a greeting to the server
-$('#greet').click(function(){
-    socket.emit('greet', {message:'greeting from client'});
+//belépés kezelése
+socket.on('login', function(data){
+
+    data = JSON.parse(data);
+    console.log(data);
+    if(data[status] == 0){
+        username = $('#uname').val();
+        $('#uname').val('');
+    }
+
 });
 
 
+//az üzenetküldés eseményvezérlője
 $('#send_icon').click(function(){
 
     //ha nem vagyunk bejelentkezve, hibaüzenetet kérünk
@@ -61,6 +69,18 @@ $('#send_icon').click(function(){
         send_message('newmessage', {sender: username, message: $('#ac_message').val()})
         //és kitöröljük az input tartalmát
         $('#ac_message').val('');
+    }
+});
+
+
+// belépés a szobába
+$('#login').click(function(){
+    //ha üres a név input, akkor hibaüzenet
+    if (!$('#uname').val()){
+        send_message('req_error', {message:'Adj meg egy egyedi felhasználónevet!'});
+    } else{
+    //ha nem üres, elküldjük a szervernek
+        send_message('login', {username: $('#uname').val()})
     }
 });
 
