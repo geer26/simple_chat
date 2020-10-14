@@ -59,7 +59,7 @@ socket.on('error', function(data){
 //belépés kezelése
 socket.on('login', function(data){
 
-    //a stzerver által küldött adatok szerializálása
+    //a szerver által küldött adatok szerializálása
     data = JSON.parse(data);
 
     //ha minden rendben, akkor:
@@ -128,7 +128,7 @@ function send_message(e_name,message){
 
 //másik felhasználó belép, hozzáadás a felhasználói blokkba
 function adduser(data){
-
+    $('#users').append(data['htm'])
 };
 
 
@@ -139,4 +139,5 @@ function deluser(data){
 
 //üzenet megjelenítése az üzenetfolyamban
 function showmessage(data){
+    $('#messages').append(data['htm']);
 };

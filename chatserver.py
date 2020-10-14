@@ -1,6 +1,6 @@
 #framework és a többi lom importálása
 from flask import Flask, render_template, json, request, session
-import datetime
+from datetime import datetime
 
 
 #asszinkron kéréskezelő importálása
@@ -37,7 +37,22 @@ def deluser(username):
 #mindenkinek küld üzenetet a tárolóban (egyedileg!!!)
 def send_broadcast(message):
     for user in users:
-        socket.emit('newmessage', message, room=user['sid'])
+        socket.emit('newmessage', message,  room=user['sid'])
+    return True
+
+def broadcast_message(message):
+    for user in users:
+        now = datetime.now()
+        timestamp = now.strftime('%Y.%b-%d.,%H:%M')
+
+        if user['username'] == message['sender']:
+            row = render_template('message_temp.html', message=message['message'], timestamp=timestamp)
+        else:
+            row = render_template('message_temp.html', message=message['message'], username=message['username'], timestamp=timestamp)
+
+        message = {'event': 101, 'htm': row}
+
+        socket.emit('newmessage', message,  room=user['sid'])
     return True
 
 
@@ -66,6 +81,18 @@ def login(data):
         #elküldjük a kliensnek, hogy minden rendben
         emit('login', data)
 
+        #megjelenítjük a szobában az értesítést
+        now = datetime.now()
+        timestamp = now.strftime('%Y.%b-%d.,%H:%M')
+        row = render_template('message_temp.html', message=uname+' csatlakozott a beszélgetéshez!', server=1, timestamp=timestamp)
+        message = {'event':101, 'htm':row}
+        send_broadcast(message)
+
+        #hozzáadjuk a felhasználót a felhasználólistába
+        row = render_template('user_temp.html', username=uname)
+        message = {'event':102, 'htm':row}
+        send_broadcast(message)
+
     #ha létezik
     else:
         #hibaüzenetet küldünk
@@ -77,8 +104,8 @@ def login(data):
 def logout(data):
     uname = data['username']
     deluser(uname)
-    #send message
-    #remove user from userbar at everybody
+    #megjelenítjük a szobában az értesítést
+    #eltávolítjuk a felhasználót a felhasználólistából
 
 
 #hibaüzenet kérelmek kezelése
@@ -95,7 +122,8 @@ def error(data):
 #új üzenetek kezelése
 @socket.on('newmessage')
 def newmessage(data):
-    print(data)
+    if data['event'] == 201:
+        broadcast_message(data)
 
 
 #frissen belépett felhasználó
