@@ -1,5 +1,6 @@
 #framework és a többi lom importálása
 from flask import Flask, render_template, json
+import datetime
 
 
 #asszinkron kéréskezelő importálása
@@ -33,22 +34,22 @@ def index():
 
 
 #asszinkron kérések kezelése
-@socket.on('req_for_ansver')
-def req(data):
-    print(data)
-
 
 @socket.on('login')
 def login(data):
     print(data)
 
 
+@socket.on('req_error')
+def error(data):
+    message = data['message']
+    page = render_template('errormessage.html', message=message)
+    emit('error', page)
 
-@socket.on('greet')
-def greet(data):
-    print('SOMEBODY CONNECTED!')
-    print('SENT: ' + str(data['message']))
-    emit('greet', json.dumps({'message':'HELLO FROM SERVER'}))
+
+@socket.on('newmessage')
+def newmessage(data):
+    print(data)
 
 
 #szerver indítása

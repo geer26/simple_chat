@@ -178,17 +178,17 @@ body{
     text-align: center;
 }
 
-.close_signup{
+.close_modal{
     display: inline-block;
     position: absolute;
     bottom: 100%;
     left: 100%;
-    width: 3vw;
+    width: 7%;
     transition: 0.3s;
 }
 
-.close_signup:hover{
-    width: 5vw;
+.close_modal:hover{
+    width: 10%;
 }
 
 .viking{

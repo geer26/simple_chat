@@ -28,7 +28,13 @@ socket.on('newmessage', function(data){
 
 //bejövő hibaüzenet, az 'error' eseménynévvel azonosítjuk
 socket.on('error', function(data){
-    console.log('SERVER SENT ERROR');
+    $('#if').children().hide();
+    $('#if').append(data);
+    $('#error_modal').show();
+    $('#cancel_error').click(function(){
+        $('#error_modal').remove();
+        $('#if').children().show();
+    });
 });
 
 
@@ -38,7 +44,19 @@ $('#greet').click(function(){
 });
 
 
+$('#send_icon').click(function(){
+    //ha nincs szöveg a beviteli mezőben, hibaüzenetet kérünk
+    if( !$('#ac_message').val() ){
+        send_message('req_error', {message:'HELLO ÜRES A MEZŐ, HE!'})
+    } else{
+        //ha van benne szöveg, elküldjük a szervernek a felhasználónévvel
+        send_message('newmessage', {sender: $('#username').val(), message: $('#ac_message').val()})
+    }
+});
+
+
 //univerzális függvény üzenetküldéshez
+//a scriptben azonosított hiba esetén pl. send_message('req_error', hibaüzenet)
 function send_message(e_name,message){
     socket.emit(e_name,message);
 };
