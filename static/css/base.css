@@ -203,3 +203,26 @@ body{
 .viking:hover{
     max-width: 75px;
 }
+
+
+/* messages */
+
+.ownmessage{
+    display: block;
+    width: fit-content;
+    font-size: 1.5vw;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgba(236, 247, 218, 0.5);
+}
+
+.foreignmessage{
+    display: block;
+    width: fit-content;
+    font-size: 1.5vw;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgba(202, 219, 237, 0.5);
+}
