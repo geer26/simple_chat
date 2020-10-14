@@ -41,14 +41,27 @@ socket.on('error', function(data){
 //belépés kezelése
 socket.on('login', function(data){
 
+    //a stzerver által küldött adatok szerializálása
     data = JSON.parse(data);
-    console.log(data);
-    if(data[status] == 0){
+
+    //ha minden rendben, akkor:
+    if(data['status'] == 0 ){
+        //a felhasználónév legyen az inputbox tartalma
         username = $('#uname').val();
+
+        //inputbox ürítése, eltüntetése, a loginbutton eltüntetése, a logout button megjelenítése
+        //majd üzenet a szobának
         $('#uname').val('');
-    }
+        $('#uname').hide();
+        $('#login').hide();
+        $('#logout').show();
+        //üzenet az egész szobába!
+    };
 
 });
+
+
+//kilépés kezelése
 
 
 //az üzenetküldés eseményvezérlője
