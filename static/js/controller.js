@@ -21,8 +21,9 @@ $( document ).ready(function(){
 
 
 //bejövő új üzenet, a 'newmessage' eseménynévvel azonosítjuk
+//eseménykódok!!!
 socket.on('newmessage', function(data){
-    console.log('SERVER SENT NEWMESSAGE');
+    console.log('SERVER SENT NEWMESSAGE: ' + data);
 });
 
 
@@ -62,7 +63,11 @@ socket.on('login', function(data){
 
 
 //kilépés kezelése
+$('#logout').click(function(){
 
+    console.log('LOGOUT');
+    send_message('logout', {username:username});
+});
 
 //az üzenetküldés eseményvezérlője
 $('#send_icon').click(function(){

@@ -26,6 +26,20 @@ def check_usernames(username):
             return True
     return False
 
+#eltávolítja a felhasználót a tárolóból
+def deluser(username):
+    for user in users:
+        if user['username'] == username:
+            users.remove(user)
+            return True
+    return False
+
+#mindenkinek küld üzenetet a tárolóban (egyedileg!!!)
+def send_broadcast(message):
+    for user in users:
+        socket.emit('newmessage', message, room=user['sid'])
+    return True
+
 
 #indexoldal (kezdőlap) kérés kezelése - ez szinkron kérés-válasz!
 @app.route('/')
@@ -56,6 +70,15 @@ def login(data):
     else:
         #hibaüzenetet küldünk
         emit('error', render_template('errormessage.html', message='Válassz másik nevet!'))
+
+
+#kilépés kezelése
+@socket.on('logout')
+def logout(data):
+    uname = data['username']
+    deluser(uname)
+    #send message
+    #remove user from userbar at everybody
 
 
 #hibaüzenet kérelmek kezelése
