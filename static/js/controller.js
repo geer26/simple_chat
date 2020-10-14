@@ -45,12 +45,22 @@ $('#greet').click(function(){
 
 
 $('#send_icon').click(function(){
+
+    //ha nem vagyunk bejelentkezve, hibaüzenetet kérünk
+    if( !username){
+        send_message('req_error', {message:'A hozzászóláshoz jelentkezz be!'});
+    }
+
     //ha nincs szöveg a beviteli mezőben, hibaüzenetet kérünk
-    if( !$('#ac_message').val() ){
-        send_message('req_error', {message:'HELLO ÜRES A MEZŐ, HE!'})
-    } else{
-        //ha van benne szöveg, elküldjük a szervernek a felhasználónévvel
-        send_message('newmessage', {sender: $('#username').val(), message: $('#ac_message').val()})
+    else if( !$('#ac_message').val() ){
+        send_message('req_error', {message:'HELLO ÜRES A MEZŐ, HE!'});
+    }
+
+    else{
+        //ha van benne szöveg, be is vagyunk jelentkezve, elküldjük a szervernek a felhasználónévvel
+        send_message('newmessage', {sender: username, message: $('#ac_message').val()})
+        //és kitöröljük az input tartalmát
+        $('#ac_message').val('');
     }
 });
 
