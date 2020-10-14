@@ -22,8 +22,25 @@ $( document ).ready(function(){
 
 //bejövő új üzenet, a 'newmessage' eseménynévvel azonosítjuk
 //eseménykódok!!!
+// 1XX - szerveroldali események
+// 101 - új üzenet a beszélgetésfolyamba
+// 102 - felhasználóváltozás a felhasználóblokkban-belépés
+// 103 - felhasználóváltozás a felhasználóblokkban-kilépés
+// 2XX - kliensoldali események
+// 201 - új üzenet küldése mindenkinek
 socket.on('newmessage', function(data){
     console.log('SERVER SENT NEWMESSAGE: ' + data);
+    switch (data['event']){
+        case 101:
+            showmessage(data);
+            break;
+        case 102:
+            adduser(data);
+            break;
+        case 103:
+            deluser(data);
+            break;
+    }
 });
 
 
@@ -56,7 +73,7 @@ socket.on('login', function(data){
         $('#uname').hide();
         $('#login').hide();
         $('#logout').show();
-        //üzenet az egész szobába!
+        //üzenet az egész szobának!
     };
 
 });
@@ -84,7 +101,7 @@ $('#send_icon').click(function(){
 
     else{
         //ha van benne szöveg, be is vagyunk jelentkezve, elküldjük a szervernek a felhasználónévvel
-        send_message('newmessage', {sender: username, message: $('#ac_message').val()})
+        send_message('newmessage', {event:201 ,sender: username, message: $('#ac_message').val()})
         //és kitöröljük az input tartalmát
         $('#ac_message').val('');
     }
@@ -107,4 +124,19 @@ $('#login').click(function(){
 //a scriptben azonosított hiba esetén pl. send_message('req_error', hibaüzenet)
 function send_message(e_name,message){
     socket.emit(e_name,message);
+};
+
+//másik felhasználó belép, hozzáadás a felhasználói blokkba
+function adduser(data){
+
+};
+
+
+//másik felhasználó kilép, eltávolítás a felhasználói blokkból
+function deluser(data){
+};
+
+
+//üzenet megjelenítése az üzenetfolyamban
+function showmessage(data){
 };
