@@ -1,0 +1,21 @@
+<div
+        {% if {{username}} %}
+        class="foreignmessage">
+        <div class="stamp">
+            {{username}} {{timestamp}}
+        </div>
+        {% elif {{server}} %}
+        class="servermessage">
+        <div class="stamp">
+            SERVER {{timestamp}}
+        </div>
+        {% else %}
+        class="ownmessage">
+        <div class="stamp">
+            {{timestamp}}
+        </div>
+        {% endif %}
+
+    {{message}}
+</div>
+<br>
