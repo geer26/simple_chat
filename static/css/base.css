@@ -36,46 +36,41 @@ body{
 }
 
 .messages{
-    position: relative;
-    display: block;
+    display: inline-block;
+    margin: auto;
     width: 90vw;
     height: 50vh;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     border-radius: 5px;
-    overflow: auto;
+    overflow: none;
     background-color: rgba(255,255,255,0.4);
     box-shadow: 0px 0px 15px 5px rgba(0,0,0,1);
     transition: 0.3s;
     margin-bottom: 10px;
+    padding:0;
 }
 
 .messages:hover{
     box-shadow: 0px 0px 15px 5px rgba(30,115,189,1);
-    border: 1px solid rgba(30,115,189,1);
+    /*border: 1px solid rgba(30,115,189,1);*/
 }
 
 .users{
     display: inline-block;
-    position: absolute:
-    left: 2%;
-    top: 2%;
-    border: 1px solid black;
-    height: 95%;
-    width: 15%;
-    margin: auto;
+    margin: 0;
+    height: 100%;
+    width: 15vw;
     font-size: 2vw;
+    overflow: auto;
 }
 
 .textflow{
     display: inline-block;
-    position: absolute;
-    top: 2%;
-    left: 17%;
-    border: 1px solid black;
-    height: 95%;
-    width: 80%;
-    margin: auto;
+    margin: 0;
+    height: 100%;
+    width: 70vw;
     font-size: 2vw;
+    overflow: auto;
 }
 
 .actual_message{
@@ -202,4 +197,44 @@ body{
 
 .viking:hover{
     max-width: 75px;
+}
+
+
+/* messages */
+
+.ownmessage{
+    display: block;
+    margin: auto;
+    width: fit-content;
+    font-size: 1.5vh;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgba(236, 247, 218, 0.5);
+    text-align: center;
+}
+
+.foreignmessage{
+    display: block;
+    width: fit-content;
+    font-size: 1.5vh;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgba(202, 219, 237, 0.5);
+    text-align: center;
+}
+
+.servermessage{
+    display: block;
+    text-align: center;
+    font-size: 1.5vh;
+    padding: 2px;
+    border: 1px solid black;
+    background-color: rgba(252, 219, 207, 0.5);
+}
+
+.stamp{
+    text-align: center;
+    font-size: 70%;
 }
