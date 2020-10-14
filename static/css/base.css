@@ -18,32 +18,32 @@ body{
     left: 0px;
     padding: 0;
     width: 100vw;
+    max-height: 7vh;
     background-color: black;
-    box-shadow: 0px 10px 10px -1px rgba(0,0,0,1);
+    box-shadow: 0px 10px 5px 0px rgba(0,0,0,1);
 }
 
 .logoimg{
     display: inline-block;
-    width: 15vw;
+    max-height: 5vh;
     margin: 5px;
 }
 
 .interface_holder{
     position: absolute;
-    top: 10vw;
-    text-align: center;
+    display: block;
+    margin: 10vh auto;
 }
 
 .messages{
+    position: relative;
     display: block;
     width: 90vw;
     height: 50vh;
     border: 1px solid black;
-    display: block;
     border-radius: 5px;
     overflow: auto;
     background-color: rgba(255,255,255,0.4);
-    padding: 5px;
     box-shadow: 0px 0px 15px 5px rgba(0,0,0,1);
     transition: 0.3s;
     margin-bottom: 10px;
@@ -54,18 +54,41 @@ body{
     border: 1px solid rgba(30,115,189,1);
 }
 
+.users{
+    display: inline-block;
+    position: absolute:
+    left: 2%;
+    top: 2%;
+    border: 1px solid black;
+    height: 95%;
+    width: 15%;
+    margin: auto;
+    font-size: 2vw;
+}
+
+.textflow{
+    display: inline-block;
+    position: absolute;
+    top: 2%;
+    left: 17%;
+    border: 1px solid black;
+    height: 95%;
+    width: 80%;
+    margin: auto;
+    font-size: 2vw;
+}
+
 .actual_message{
     position: relative;
-    display: block;
-    width: 90vw;
-    height: 5vh;
+    margin:auto;
+    display: inline-block;
+    max-height: 5vh;
     border: 1px solid black;
-    display: block;
     border-radius: 5px;
-    overflow: visible;
+    overflow: none;
     background-color: rgba(255,255,255,0.4);
-    padding: 5px;
     box-shadow: 0px 0px 15px 5px rgba(0,0,0,1);
+    transition: 0.3s;
 }
 
 .actual_message:hover{
@@ -85,4 +108,98 @@ body{
     height: 8vh;
     top: -0.5vh;
     right: -0.5vh;
+}
+
+.inputbox{
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    height: 100%;
+    background-color: rgba(255,255,255,0.5);
+    /*border: 1px solid black;*/
+}
+
+/*buttons*/
+
+.positivebutton{
+    display: inline-block;
+    border: none;
+    background-color: #90e38a;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.positivebutton:hover{
+    box-shadow: 0px 0px 5px 5px rgba(144, 227, 138, 1);
+}
+
+.negativebutton{
+    display: inline-block;
+    border: none;
+    background-color: #e3978a;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.negativebutton:hover{
+    box-shadow: 0px 0px 5px 5px rgba(227, 151, 138, 1);
+}
+
+
+/* error message */
+
+.modalback{
+    z-index: 1;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Sit on top */
+    left: 0;
+    top: 0;
+    text-align: center;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: red; /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal_frame{
+    display: inline-block;
+    position: relative;
+    top: 10%;
+    max-width: 90%;
+    margin: 10% auto;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.4);
+    border-radius: 5px;
+    border: 1px solid white;
+    color: white;
+    box-shadow: 0px 0px 6px 2px rgba(255,255,255,1);
+    text-align: center;
+}
+
+.close_signup{
+    display: inline-block;
+    position: absolute;
+    bottom: 100%;
+    left: 100%;
+    width: 3vw;
+    transition: 0.3s;
+}
+
+.close_signup:hover{
+    width: 5vw;
+}
+
+.viking{
+    display: inline-block;
+    max-width: 70px;
+    position: absolute;
+    bottom: 105%;
+    left: -20px;
+    transition: 0.3s;
+}
+
+.viking:hover{
+    max-width: 75px;
 }

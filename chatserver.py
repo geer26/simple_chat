@@ -18,6 +18,14 @@ socket = SocketIO(app)
 users = {}
 
 
+#ellenőrzi, hogy a 'users' tárolóban létezik-e a paraméterként kapott név
+def check_usernames(username):
+    for user in users:
+        if user['username'] == username:
+            return True
+    return False
+
+
 #indexoldal (kezdőlap) kérés kezelése - ez szinkron kérés-válasz!
 @app.route('/')
 def index():
@@ -28,6 +36,12 @@ def index():
 @socket.on('req_for_ansver')
 def req(data):
     print(data)
+
+
+@socket.on('login')
+def login(data):
+    print(data)
+
 
 
 @socket.on('greet')

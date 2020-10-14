@@ -17,23 +17,43 @@
 </head>
 
 <body>
-    <!-- A logó helye. Ha lenne menu, itt  egy hely neki! -->
+    <input id="username" style="display: none;">
+    <!-- A logó és a menü helye -->
     <div id="logo" class="logo">
+        <!-- A logó -->
         <img src="/static/img/logo.png" class="logoimg">
+        <!-- A felhasználó belépés előtt itt adja meg a nevét -->
+        <input id="uname" type="text" size="10" class="inputbox" placeholder="::username::" style="text-align: center; background-color: rgba(255,255,255,0.7);">
+        <!-- belépés gombja -->
+        <button id="login" class="positivebutton">login</button>
+        <!-- kilépés gombja --->
+        <button id="logout" class="negativebutton">logout</button>
     </div>
 
     <div id="user_interface" class="interface_holder">
 
-        <!-- az üzenetek tárolója -->
-        <div id="messages" class="messages">
-        <!-- ide pakolgatjuk az üzeneteket -->
+        <div class="messages">
+            <!-- a felhasználók tárolója -->
+            <div id="users" class="users">
+                users:
+                <!-- ide pakolgatjuk a bejelentkezett felhasználók neveit -->
+            </div>
+
+            <!-- az üzenetek tárolója -->
+            <div id="messages" class="textflow">
+                <!-- ide pakolgatjuk az üzeneteket -->
+            </div>
+
         </div>
 
         <!-- a felhasználói input tárolója -->
         <div id="actual message" class="actual_message">
             <!-- az üzenetküldés ikonja -->
             <img src="/static/img/send.png" class="icon" id="send_icon">
-            <input type="text" id="ac_message">
+            <!-- A hátralévő karakterek - ez önkényesen 25 lesz -->
+            <div id="counter" style="display: inline-block; margin: auto; font-size: 70%;">(25)</div>
+            <!-- a felhasználó ide gépeli az üzenetet -->
+            <input type="text" id="ac_message" class="inputbox" size="40">
         </div>
 
     </div>
