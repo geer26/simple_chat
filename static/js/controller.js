@@ -20,6 +20,13 @@ $( document ).ready(function(){
 });
 
 
+//lefut a böngésző, vagy a böngészőablak bezárásakor
+$(window).on('beforeunload', function(){
+    var message = {event: 299, username:username};
+    send_message('newmessage', message)
+});
+
+
 //eseménykódok
 
 //1XX - szerveroldali események
@@ -32,9 +39,10 @@ $( document ).ready(function(){
 //201 - új üzenet küldése mindenkinek
 //203 - kliens kilép
 //210 - kliens lekéri a felhasználólistát
+//299 - a kliens kilép (felhasználónévvel!)
 
 //bejövő új üzenet, a 'newmessage' eseménynévvel azonosítjuk - kész
-// ez a függvény lesz az event dispatcher - szétosztja az eseményeket
+// ez a függvény lesz az event dispatcher - szétosztja a BEJÖVŐ!!! eseményeket
 // azok eseménykódja alapján
 socket.on('newmessage', function(data){
     switch (data['event']){

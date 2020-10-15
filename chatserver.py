@@ -32,7 +32,13 @@ def deluser(username):
     for user in users:
         if user['username'] == username:
             users.remove(user)
+
+            #és küld a többi kliensnek egy üzenetet, hogy kit kell eltávolítani a felhasználók listájából
+            message = {'event': 103, 'username': username}
+
+            #függvény vége
             return True
+    #függvény sikertlen vége
     return False
 
 
@@ -217,7 +223,7 @@ def error(data):
 #210 - kliens lekéri a felhasználólistát
 
 
-#új üzenetek kezelése - ide kellenek az eseménykódok - event dispatcher
+#új BEJÖVŐ!!! üzenetek kezelése - ide kellenek az eseménykódok - event dispatcher
 @socket.on('newmessage')
 def newmessage(data):
     if data['event'] == 201:  #egyik kliens üzenetet küldött
@@ -226,11 +232,12 @@ def newmessage(data):
     if data['event'] == 210:  #Egy kliens lekéri a felhasználólistát
         send_userlist(data['username'])
         return
+    if data['event'] == 299:  #egy kliens kilép
+        print('Valaki kilépett!')
+        print(data)
+        deluser(data['username'])
+        return
 
-
-@socket.on('disconnect')
-def test_disconnect():
-    print(request.sid)
 
 
 #szerver indítása
