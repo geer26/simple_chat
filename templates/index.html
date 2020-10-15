@@ -24,16 +24,14 @@
         <img src="/static/img/logo.png" class="logoimg">
 
         <div id="menu" class="menu">
-            <input type="text" size="10" class="inputbox" placeholder="::username::" style="text-align: center; background-color: rgba(255,255,255,0.7);">
-            <button  class="positivebutton">login</button>
-            <button class="negativebutton">logout</button>
+            <!-- A felhasználó belépés előtt itt adja meg a nevét -->
+            <input id="uname" type="text" size="10" class="inputbox" placeholder="::username::" style="text-align: center; background-color: rgba(255,255,255,0.7);">
+            <!-- belépés gombja -->
+            <button id="login" class="positivebutton">belépés</button>
+            <!-- kilépés gombja --->
+            <button id="logout" class="negativebutton">kilépés</button>
         </div>
-        <!-- A felhasználó belépés előtt itt adja meg a nevét -->
-        <input id="uname" type="text" size="10" class="inputbox" placeholder="::username::" style="text-align: center; background-color: rgba(255,255,255,0.7); border: 1px solid red;">
-        <!-- belépés gombja -->
-        <button id="login" class="positivebutton">login</button>
-        <!-- kilépés gombja --->
-        <button id="logout" class="negativebutton">logout</button>
+
     </div>
 
     <div id="if">
