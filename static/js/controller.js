@@ -40,6 +40,9 @@ socket.on('newmessage', function(data){
         case 103:
             deluser(data['username']);
             break;
+        case 110:
+            refresh_userlist(data);
+            break;
     }
 });
 
@@ -82,6 +85,9 @@ socket.on('login', function(data){
         $('#login').hide();
         $('#logout').show();
         //üzenet az egész szobának! - ezt a szerver végzi, nem kell külön kérés!
+
+        //lekérem a felhasználók listáját
+        send_message('newmessage', {event: 210, username: username})
     };
 
 });
@@ -102,7 +108,7 @@ $('#logout').click(function(){
 //az üzenetküldés eseményvezérlője
 $('#send_icon').click(function(){
 
-    //ha nem vagyunk bejelentkezve, hibaüzenetet kérünk
+    //ha nincs bejelentkezve, hibaüzenetet kérünk
     if( !username){
         send_message('req_error', {message:'A hozzászóláshoz jelentkezz be!'});
     }
@@ -114,8 +120,7 @@ $('#send_icon').click(function(){
 
     else{
         //ha van benne szöveg, be is vagyunk jelentkezve, elküldjük a szervernek a felhasználónévvel
-        //send_message('newmessage', {event:201 , sender: username, message: $('#ac_message').val()})
-        console.log('sdfgfgf');
+        send_message('newmessage', {event:201 , sender:username, message: $('#ac_message').val()})
         //és kitöröljük az input tartalmát
         $('#ac_message').val('');
         $('#counter').text('(25)');
@@ -144,7 +149,7 @@ function send_message(e_name,message){
 
 //másik felhasználó belép, hozzáadás a felhasználói blokkba
 function adduser(data){
-    $('#users').append(data['htm'])
+    $('#users').append(data['htm']);
 };
 
 
@@ -158,4 +163,11 @@ function deluser(data){
 //üzenet megjelenítése az üzenetfolyamban
 function showmessage(data){
     $('#messages').append(data['htm']);
+};
+
+
+//felhasználólista frissítése
+function refresh_userlist(data){
+    $('#users').empty();
+    $('#users').append(data['htm']);
 };

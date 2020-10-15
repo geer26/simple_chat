@@ -26,6 +26,7 @@ def check_usernames(username):
             return True
     return False
 
+
 #eltávolítja a felhasználót a tárolóból
 def deluser(username):
     for user in users:
@@ -34,6 +35,7 @@ def deluser(username):
             return True
     return False
 
+
 #mindenkinek küld üzenetet a tárolóban (egyedileg!!!)
 def send_broadcast(message):
     for user in users:
@@ -41,27 +43,56 @@ def send_broadcast(message):
     return True
 
 
+#elküldi a paraméterként kapott felhasználónévnek a felhasználók listáját
+def send_userlist(username):
+    sid = None
+
+    #megkeressük a felhasználó session id-ját
+    for user in users:
+        if username == user['username']:
+            sid = user['sid']
+            break
+
+    row = ''
+
+    for user in users:
+        minirow = render_template('user_temp.html', username=user['username'])
+        row += minirow
+
+    # a kész üzenet összeállítása
+    message = {'event': 110, 'htm': row}
+
+    #az üzenet küldése csak a felhasználónak
+    socket.emit('newmessage', message, room=sid)
+
+
+#itt küldjük szét a szerverüzeneteket a beszélgetésfolyamba, egy szöveget kap paraméterként
 def send_broadcast_byserver(message):
     now = datetime.now()
     timestamp = now.strftime('%Y.%b-%d.,%H:%M')
     row = render_template('message_temp.html', message=message, server=1, timestamp=timestamp)
-    message = {'event': 101, 'htm': row}
+    message = {'event': 101, 'htm': row}  #101 - új üzenet a beszélgetésfolyamba
     for user in users:
         socket.emit('newmessage', message,  room=user['sid'])
     return True
 
 
-def broadcast_message(message, event):
+#a kliensek üzeneteit küldjük szét - 201-es kód
+def broadcast_message(message):
+    #az eredeti üzenet feladója
+    sender = message['sender']
+    #az eredeti üzenet szövege
+    m = message['message']
     for user in users:
         now = datetime.now()
         timestamp = now.strftime('%Y.%b-%d.,%H:%M')
 
-        if user['username'] == message['sender']:
-            row = render_template('message_temp.html', message=message['message'], timestamp=timestamp)
+        if user['username'] == sender:
+            row = render_template('message_temp.html', message=m, timestamp=timestamp)
         else:
-            row = render_template('message_temp.html', message=message['message'], username=message['sender'], timestamp=timestamp)
+            row = render_template('message_temp.html', message=m, username=sender, timestamp=timestamp)
 
-        message = {'event': event, 'htm': row}  #új elem a beszélgetés folyamba
+        message = {'event': 101, 'htm': row}  #új elem a beszélgetés folyamba
 
         socket.emit('newmessage', message,  room=user['sid'])
     return True
@@ -114,16 +145,16 @@ def logout(data):
     deluser(uname)
 
     #megjelenítjük a szobában az értesítést
-    now = datetime.now()
+    '''now = datetime.now()
     timestamp = now.strftime('%Y.%b-%d.,%H:%M')
     row = render_template('message_temp.html', message=uname + ' kilépett a beszélgetésből!', server=1,
                           timestamp=timestamp)
     message = {'event': 101, 'htm': row}
-    send_broadcast(message)
+    send_broadcast(message)'''
 
     #eltávolítjuk a felhasználót a felhasználólistából
-    message = {'event':103, 'username': uname}
-    send_broadcast(message)
+    '''message = {'event':103, 'username': uname}
+    send_broadcast(message)'''
 
 #hibaüzenet kérelmek kezelése
 @socket.on('req_error')
@@ -142,19 +173,20 @@ def error(data):
 #101 - új üzenet a beszélgetésfolyamba
 #102 - felhasználóváltozás a felhasználóblokkban-belépés
 #103 - felhasználóváltozás a felhasználóblokkban-kilépés
+#110 - szerver elküldi a felhasználólistát
 #2XX - kliensoldali események
 #201 - új üzenet küldése mindenkinek
+#203 - kliens kilépett
+#210 - kliens lekéri a felhasználólistát
 @socket.on('newmessage')
 def newmessage(data):
     print(data)
-    if data['event'] == 201:  #egyik kliens üzenetet küldött data={evet, sender, message}
+    if data['event'] == 201:  #egyik kliens üzenetet küldött data={event, sender, message}
         broadcast_message(data)
-
-
-#frissen belépett felhasználó
-@socket.on('req_username')
-def newuser(data):
-    pass
+        return
+    if data['event'] == 210:  #Egy kliens lekéri a felhasználólistát
+        send_userlist(data['username'])
+        return
 
 
 #szerver indítása
