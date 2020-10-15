@@ -120,6 +120,13 @@ def error(data):
 
 
 #új üzenetek kezelése
+#eseménykódok!!!
+#1XX - szerveroldali események
+#101 - új üzenet a beszélgetésfolyamba
+#102 - felhasználóváltozás a felhasználóblokkban-belépés
+#103 - felhasználóváltozás a felhasználóblokkban-kilépés
+#2XX - kliensoldali események
+#201 - új üzenet küldése mindenkinek
 @socket.on('newmessage')
 def newmessage(data):
     if data['event'] == 201:

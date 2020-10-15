@@ -30,15 +30,14 @@ body{
 }
 
 .interface_holder{
-    position: absolute;
-    display: block;
+    display: inline-block;
     margin: 10vh auto;
 }
 
 .messages{
     display: inline-block;
     margin: auto;
-    width: 90vw;
+    max-width: 90vw;
     height: 50vh;
     /*border: 1px solid black;*/
     border-radius: 5px;
@@ -46,7 +45,6 @@ body{
     background-color: rgba(255,255,255,0.4);
     box-shadow: 0px 0px 15px 5px rgba(0,0,0,1);
     transition: 0.3s;
-    margin-bottom: 10px;
     padding:0;
 }
 
@@ -80,7 +78,6 @@ body{
 
 .actual_message{
     position: relative;
-    margin:auto;
     display: inline-block;
     max-height: 5vh;
     border: 1px solid black;
@@ -98,16 +95,15 @@ body{
 
 .icon{
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -50%;
+    left: 90%;
     height: 6vh;
     transition: 0.3s;
 }
 
 .icon:hover{
     height: 8vh;
-    top: -0.5vh;
-    right: -0.5vh;
+    top: -60%;
 }
 
 .inputbox{

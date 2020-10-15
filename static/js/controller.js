@@ -68,12 +68,11 @@ socket.on('login', function(data){
         username = $('#uname').val();
 
         //inputbox ürítése, eltüntetése, a loginbutton eltüntetése, a logout button megjelenítése
-        //majd üzenet a szobának
         $('#uname').val('');
         $('#uname').hide();
         $('#login').hide();
         $('#logout').show();
-        //üzenet az egész szobának!
+        //üzenet az egész szobának! - ezt a szerver végzi, nem kell külön kérés!
     };
 
 });
