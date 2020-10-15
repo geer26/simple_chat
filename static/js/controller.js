@@ -182,15 +182,12 @@ function send_message(e_name,message){
 //a paraméterként kapott elem hozzáadása a felhasználók blokkhoz - kész
 function adduser(data){
     $('#users').append(data['htm']);
-    console.log(data['html']);
 };
 
 
-//a paraméterként kapott id-jű elem eltávolítása a felhasználók blokkból
+//a paraméterként kapott id-jű elem eltávolítása a felhasználói blokkból - kész
 function deluser(data){
-    console.log('HELLO! ' + data + ' should be removed!');
-    //$('#data').remove();
-    //document.getElementById(data).remove();
+    document.getElementById(data).remove();
 };
 
 
