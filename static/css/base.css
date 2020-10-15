@@ -16,7 +16,7 @@ body{
     position: absolute;
     top: 0px;
     left: 0px;
-    padding: 0;
+    padding: 5px;
     width: 100vw;
     max-height: 7vh;
     background-color: black;
@@ -27,6 +27,7 @@ body{
     display: inline-block;
     max-height: 5vh;
     margin: 5px;
+    border: 1px solid red;
 }
 
 .interface_holder{
@@ -58,7 +59,7 @@ body{
     margin: 0;
     height: 100%;
     width: 15vw;
-    font-size: 1vw;
+    font-size: 0.5vw;
     overflow: auto;
     font-size: 3vh;
 }

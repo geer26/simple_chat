@@ -220,13 +220,17 @@ def error(data):
 #új üzenetek kezelése - ide kellenek az eseménykódok - event dispatcher
 @socket.on('newmessage')
 def newmessage(data):
-    print(data)
     if data['event'] == 201:  #egyik kliens üzenetet küldött
         broadcast_message(data)
         return
     if data['event'] == 210:  #Egy kliens lekéri a felhasználólistát
         send_userlist(data['username'])
         return
+
+
+@socket.on('disconnect')
+def test_disconnect():
+    print(request.sid)
 
 
 #szerver indítása
