@@ -6,27 +6,30 @@ body{
     letter-spacing: 2px;
     word-spacing: 2px;
     color: #000000;
-    font-family: 'Ubuntu', sans-serif;
-    font-weight: bold;
+    font-family: monospace;
+    font-weight: none;
     padding: 0;
 }
 
 .logo{
     margin: 0;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    padding: 5px;
+    top: 0;
+    left: 0;
     width: 100vw;
     max-height: 7vh;
-    background-color: black;
-    box-shadow: 0px 10px 5px 0px rgba(0,0,0,1);
+    background-color: rgba(0,0,0,0.8);
+    box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.8);
 }
 
 .logoimg{
     display: inline-block;
     max-height: 5vh;
-    margin: 5px;
+    margin: 5px auto;
+    border: 1px solid red;
+}
+
+.menu{
     border: 1px solid red;
 }
 
