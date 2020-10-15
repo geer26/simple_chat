@@ -20,7 +20,7 @@ $( document ).ready(function(){
 });
 
 
-//lefut a böngésző, vagy a böngészőablak bezárásakor
+//lefut a böngésző, vagy a böngészőablak bezárásakor, frissítéskor
 $(window).on('beforeunload', function(){
     var message = {event: 299, username:username};
     send_message('newmessage', message)
@@ -71,14 +71,14 @@ $('#ac_message').keydown(function(event){
         if( !username){
             send_message('req_error', {message:'A hozzászóláshoz jelentkezz be!'});
             $('#ac_message').val('');
-            $('#counter').text('(25)');
+            $('#counter').text('(40)');
         }
 
         //ha nincs szöveg a beviteli mezőben, hibaüzenetet kérünk
         else if( !$('#ac_message').val() ){
             send_message('req_error', {message:'HELLO ÜRES A MEZŐ, HE!'});
             $('#ac_message').val('');
-            $('#counter').text('(25)');
+            $('#counter').text('(40)');
         }
         else{
             //ha van benne szöveg, be is vagyunk jelentkezve, elküldjük a szervernek a felhasználónévvel
@@ -91,15 +91,15 @@ $('#ac_message').keydown(function(event){
     };
 
     //az aktuális hossz deklarálása
-    var l = 25-$('#ac_message').val().length;
+    var l = 40-$('#ac_message').val().length;
 
     //ha az aktuális hoszs nagyobb, mint a megadott, csonkoljuk a végét
     if( l <= 0 ){
         var str = $('#ac_message').val();
-        $('#ac_message').val(str.slice(0,25));
+        $('#ac_message').val(str.slice(0,40));
     }
     //frissítjük az üzenet hosszát
-    l = 25-$('#ac_message').val().length;
+    l = 40-$('#ac_message').val().length;
     //felülírjuk a számláló tartalmát
     $('#counter').text("(" + l + ")");
 
@@ -171,14 +171,14 @@ $('#send_icon').click(function(){
     if( !username){
         send_message('req_error', {message:'A hozzászóláshoz jelentkezz be!'});
         $('#ac_message').val('');
-        $('#counter').text('(25)');
+        $('#counter').text('(40)');
     }
 
     //ha nincs szöveg a beviteli mezőben, hibaüzenetet kérünk
     else if( !$('#ac_message').val() ){
         send_message('req_error', {message:'HELLO ÜRES A MEZŐ, HE!'});
         $('#ac_message').val('');
-        $('#counter').text('(25)');
+        $('#counter').text('(40)');
     }
 
     else{
