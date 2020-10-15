@@ -62,7 +62,33 @@ socket.on('newmessage', function(data){
 
 
 //gépeléskor ellenőrizzük az üzenethosszt - kész
-$('#ac_message').keyup(function(){
+$('#ac_message').keydown(function(event){
+
+    //ha a billentyű enter, elküljük az üzenetet és ürítjük a tárolót
+    if (event.which == 13) {
+
+        //ha nincs bejelentkezve, hibaüzenetet kérünk
+        if( !username){
+            send_message('req_error', {message:'A hozzászóláshoz jelentkezz be!'});
+            $('#ac_message').val('');
+            $('#counter').text('(25)');
+        }
+
+        //ha nincs szöveg a beviteli mezőben, hibaüzenetet kérünk
+        else if( !$('#ac_message').val() ){
+            send_message('req_error', {message:'HELLO ÜRES A MEZŐ, HE!'});
+            $('#ac_message').val('');
+            $('#counter').text('(25)');
+        }
+        else{
+            //ha van benne szöveg, be is vagyunk jelentkezve, elküldjük a szervernek a felhasználónévvel
+            send_message('newmessage', {event:201 , sender:username, message: $('#ac_message').val()})
+            //és kitöröljük az input tartalmát
+            $('#ac_message').val('');
+            $('#counter').text('(25)');
+        }
+        return;
+    };
 
     //az aktuális hossz deklarálása
     var l = 25-$('#ac_message').val().length;
@@ -144,11 +170,15 @@ $('#send_icon').click(function(){
     //ha nincs bejelentkezve, hibaüzenetet kérünk
     if( !username){
         send_message('req_error', {message:'A hozzászóláshoz jelentkezz be!'});
+        $('#ac_message').val('');
+        $('#counter').text('(25)');
     }
 
     //ha nincs szöveg a beviteli mezőben, hibaüzenetet kérünk
     else if( !$('#ac_message').val() ){
         send_message('req_error', {message:'HELLO ÜRES A MEZŐ, HE!'});
+        $('#ac_message').val('');
+        $('#counter').text('(25)');
     }
 
     else{
