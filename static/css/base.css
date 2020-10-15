@@ -37,16 +37,17 @@ body{
 }
 
 .interface_holder{
-    display: inline-block;
-    margin: 10vh auto;
+    display: block;
+    position: relative;
+    margin-top: 8vh;
 }
 
 .messages{
-    display: inline-block;
-    margin: auto;
+    display: block;
     max-width: 90vw;
     height: 50vh;
-    /*border: 1px solid black;*/
+    margin: auto;
+    border: 1px solid black;
     border-radius: 5px;
     overflow: none;
     background-color: rgba(255,255,255,0.4);
@@ -57,17 +58,17 @@ body{
 
 .messages:hover{
     box-shadow: 0px 0px 15px 5px rgba(30,115,189,1);
-    /*border: 1px solid rgba(30,115,189,1);*/
+    border: 1px solid rgba(30,115,189,1);
 }
 
 .users{
     display: inline-block;
     margin: 0;
+    padding-left: 3px;
     height: 100%;
     width: 15vw;
-    font-size: 0.5vw;
     overflow: auto;
-    font-size: 3vh;
+    font-size: 2vh;
 }
 
 .usercontainer{
@@ -85,8 +86,10 @@ body{
 
 .actual_message{
     position: relative;
-    display: inline-block;
+    display: block;
+    margin: auto;
     max-height: 5vh;
+    max-width: 90vw;
     border: 1px solid black;
     border-radius: 5px;
     overflow: none;
@@ -100,10 +103,27 @@ body{
     border: 1px solid rgba(30,115,189,1);
 }
 
+#ac_message{
+    display: inline-block;
+    border-radius: 5px;
+    height: 100%;
+    width: 81vw;
+    margin: 0;
+    background-color: rgba(255,255,255,0.5);
+    border: none;
+}
+
+#counter{
+    display: inline-block;
+    margin: 0;
+    width: 5vw;
+    font-size: 70%;
+}
+
 .icon{
     position: absolute;
     top: -50%;
-    left: 90%;
+    right: -5px;
     height: 6vh;
     transition: 0.3s;
 }
@@ -111,6 +131,8 @@ body{
 .icon:hover{
     height: 8vh;
     top: -65%;
+    -webkit-filter: drop-shadow(5px 5px 5px #222222);
+    filter: drop-shadow(5px 5px 5px #222222);
 }
 
 .inputbox{
@@ -118,6 +140,7 @@ body{
     border-radius: 5px;
     border: none;
     height: 100%;
+    max-width: 90%;
     background-color: rgba(255,255,255,0.5);
     /*border: 1px solid black;*/
 }
