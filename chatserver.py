@@ -1,5 +1,5 @@
 #framework és a többi lom importálása
-from flask import Flask, render_template, json, request, session
+from flask import Flask, render_template, json, request
 from datetime import datetime
 
 
@@ -204,14 +204,16 @@ def error(data):
 
 
 #eseménykódok
+
 #1XX - szerveroldali események
 #101 - új üzenet a beszélgetésfolyamba
 #102 - felhasználóváltozás a felhasználóblokkban-belépés
 #103 - felhasználóváltozás a felhasználóblokkban-kilépés
 #110 - szerver elküldi a felhasználólistát
+
 #2XX - kliensoldali események
 #201 - új üzenet küldése mindenkinek
-#203 - kliens kilépett
+#203 - kliens kilép
 #210 - kliens lekéri a felhasználólistát
 
 

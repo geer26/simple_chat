@@ -1,18 +1,18 @@
-//websocket létrehozása és inicializálása
+//websocket létrehozása és inicializálása - kész
 socket = io();
 
-//felhasználónév tárolása
+//felhasználónév tárolása - kész
 var username = '';
 
-//lefut, amit az oldal betöltődött - ld.: jquery document events
+//lefut, amit az oldal betöltődött - ld.: jquery document events - kész
 $( document ).ready(function(){
-    // ha a felhasználónak nincs neve, elrejti a kilépés bombot
+    // ha a felhasználónak nincs neve, elrejti a kilépés gombot - kész
     if (username == ''){
         $('#logout').hide();
         $('#uname').show();
         $('#login').show();
     } else {
-    //ha van név, elrejti a belépésgombot és a név inputját
+    //ha van név, elrejti a belépésgombot és a név inputját - kész
         $('#uname').hide();
         $('#login').hide();
         $('#logout').show();
@@ -20,16 +20,23 @@ $( document ).ready(function(){
 });
 
 
-//bejövő új üzenet, a 'newmessage' eseménynévvel azonosítjuk
-//eseménykódok!!!
-// 1XX - szerveroldali események
-// 101 - új üzenet a beszélgetésfolyamba
-// 102 - felhasználóváltozás a felhasználóblokkban-belépés
-// 103 - felhasználóváltozás a felhasználóblokkban-kilépés
-// 2XX - kliensoldali események
-// 201 - új üzenet küldése mindenkinek
+//eseménykódok
+
+//1XX - szerveroldali események
+//101 - új üzenet a beszélgetésfolyamba
+//102 - felhasználóváltozás a felhasználóblokkban-belépés
+//103 - felhasználóváltozás a felhasználóblokkban-kilépés
+//110 - szerver elküldi a felhasználólistát
+
+//2XX - kliensoldali események
+//201 - új üzenet küldése mindenkinek
+//203 - kliens kilép
+//210 - kliens lekéri a felhasználólistát
+
+//bejövő új üzenet, a 'newmessage' eseménynévvel azonosítjuk - kész
+// ez a függvény lesz az event dispatcher - szétosztja az eseményeket
+// azok eseménykódja alapján
 socket.on('newmessage', function(data){
-    //console.log('SERVER SENT NEWMESSAGE: ' + data);
     switch (data['event']){
         case 101:
             showmessage(data);
@@ -46,17 +53,27 @@ socket.on('newmessage', function(data){
     }
 });
 
+
+//gépeléskor ellenőrizzük az üzenethosszt - kész
 $('#ac_message').keyup(function(){
+
+    //az aktuális hossz deklarálása
     var l = 25-$('#ac_message').val().length;
+
+    //ha az aktuális hoszs nagyobb, mint a megadott, csonkoljuk a végét
     if( l <= 0 ){
         var str = $('#ac_message').val();
         $('#ac_message').val(str.slice(0,25));
     }
+    //frissítjük az üzenet hosszát
     l = 25-$('#ac_message').val().length;
+    //felülírjuk a számláló tartalmát
     $('#counter').text("(" + l + ")");
+
 });
 
-//bejövő hibaüzenet, az 'error' eseménynévvel azonosítjuk
+
+//bejövő hibaüzenet, az 'error' eseménynévvel azonosítjuk - kész
 socket.on('error', function(data){
     $('#if').children().hide();
     $('#if').append(data);
@@ -68,7 +85,7 @@ socket.on('error', function(data){
 });
 
 
-//belépés kezelése
+//belépés kezelése - kész
 socket.on('login', function(data){
 
     //a szerver által küldött adatok szerializálása
@@ -86,26 +103,21 @@ socket.on('login', function(data){
         $('#logout').show();
         //üzenet az egész szobának! - ezt a szerver végzi, nem kell külön kérés!
 
-        //lekérem a felhasználók listáját
+        //lekérem a felhasználók listáját - itt jelennek meg először az eseménykódok!
+        //eddig a pontig eseménynevekkel dolgoztunk, illetve a hibaüzenetek maradtak eseménynévvel hivatkozott elemek!
         send_message('newmessage', {event: 210, username: username})
     };
 
 });
 
 
-//kilépés kezelése
+//kilépés kezelése XXXXXXX
 $('#logout').click(function(){
-    //console.log('LOGOUT');
-    if (username != ''){
-        send_message('logout', {username:username});
-    } else{
-        //HIBA! BE SINCS JELENTKEZVE!
-    }
-
+    console.log('LOGOUT');
 });
 
 
-//az üzenetküldés eseményvezérlője
+//az üzenetküldés eseményvezérlője - kész
 $('#send_icon').click(function(){
 
     //ha nincs bejelentkezve, hibaüzenetet kérünk
@@ -128,7 +140,7 @@ $('#send_icon').click(function(){
 });
 
 
-// belépés a szobába
+// belépés a szobába - kész
 $('#login').click(function(){
     //ha üres a név input, akkor hibaüzenet
     if (!$('#uname').val()){
@@ -141,32 +153,31 @@ $('#login').click(function(){
 
 
 //univerzális függvény üzenetküldéshez
-//a scriptben azonosított hiba esetén pl. send_message('req_error', hibaüzenet)
+//a scriptben azonosított hiba esetén pl. send_message('req_error', hibaüzenet) - kész
 function send_message(e_name,message){
     socket.emit(e_name,message);
 };
 
 
-//másik felhasználó belép, hozzáadás a felhasználói blokkba
+//a paraméterként kapott elem hozzáadása a felhasználók blokkhoz - kész
 function adduser(data){
     $('#users').append(data['htm']);
 };
 
 
-//másik felhasználó kilép, eltávolítás a felhasználói blokkból
+//a paraméterként kapott id-jű elem eltávolítása a felhasználók blokkból
 function deluser(data){
-    username='';
     $('#users').remove($('#data'));
 };
 
 
-//üzenet megjelenítése az üzenetfolyamban
+//üzenet elem megjelenítése az üzenetfolyamban - kész
 function showmessage(data){
     $('#messages').append(data['htm']);
 };
 
 
-//felhasználólista frissítése
+//felhasználólista frissítése a kapott elemre - kész
 function refresh_userlist(data){
     $('#users').empty();
     $('#users').append(data['htm']);
