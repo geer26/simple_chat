@@ -19,7 +19,7 @@ socket = SocketIO(app)
 users = []
 
 
-#ellenőrzi, hogy a 'users' tárolóban létezik-e a paraméterként kapott név
+#ellenőrzi, hogy a 'users' tárolóban létezik-e a paraméterként kapott név - kész
 def check_usernames(username):
     for user in users:
         if user['username'] == username:
@@ -36,14 +36,15 @@ def deluser(username):
     return False
 
 
-#mindenkinek küld üzenetet a tárolóban (egyedileg!!!)
+#mindenkinek küld üzenetet a tárolóban (egyedileg!!!) - kész
+#"nyers" függvény, a parmétert formázás nélkül küldi!
 def send_broadcast(message):
     for user in users:
         socket.emit('newmessage', message,  room=user['sid'])
     return True
 
 
-#elküldi a paraméterként kapott felhasználónévnek a felhasználók listáját
+#elküldi a paraméterként kapott felhasználónévnek a felhasználók listáját - kész
 def send_userlist(username):
     sid = None
 
@@ -53,31 +54,49 @@ def send_userlist(username):
             sid = user['sid']
             break
 
-    row = ''
+    #a szoba neve lesz legfelül
+    row = 'Lobby:'
 
+    #végigiteráljuk a felhasználókat
     for user in users:
+        #rendereljün a felhasználónevet tartalmazó elemet
         minirow = render_template('user_temp.html', username=user['username'])
+        #az elemet hozzáadluk a lista végéhez
         row += minirow
 
-    # a kész üzenet összeállítása
+    #a kész üzenet összeállítása, 110-es eseménykóddal - ld. eseménykódok
     message = {'event': 110, 'htm': row}
 
     #az üzenet küldése csak a felhasználónak
     socket.emit('newmessage', message, room=sid)
 
-
-#itt küldjük szét a szerverüzeneteket a beszélgetésfolyamba, egy szöveget kap paraméterként
-def send_broadcast_byserver(message):
-    now = datetime.now()
-    timestamp = now.strftime('%Y.%b-%d.,%H:%M')
-    row = render_template('message_temp.html', message=message, server=1, timestamp=timestamp)
-    message = {'event': 101, 'htm': row}  #101 - új üzenet a beszélgetésfolyamba
-    for user in users:
-        socket.emit('newmessage', message,  room=user['sid'])
+    #függvény vége
     return True
 
 
-#a kliensek üzeneteit küldjük szét - 201-es kód
+#itt küldjük szét a szerverüzeneteket a beszélgetésfolyamba, egy szöveget kap paraméterként - kész
+def send_broadcast_byserver(message):
+
+    #időbélyeg létrehozása és formázása
+    now = datetime.now()
+    timestamp = now.strftime('%Y.%b-%d.,%H:%M')
+
+    #a szerverüzenet elem renderelése
+    row = render_template('message_temp.html', message=message, server=1, timestamp=timestamp)
+
+    # az új elem a beszélgetés folyamba és az eseménydódja, ami 101 (ld. kódlista!)
+    message = {'event': 101, 'htm': row}
+
+    #végigmegyünk minden felhasználón (nem úúúúúgy!)
+    for user in users:
+        # üzenet küldése a felhasználónak
+        socket.emit('newmessage', message,  room=user['sid'])
+
+    #függvény vége
+    return True
+
+
+#a kliensek üzeneteit küldjük szét - 201-es kód - kész
 def broadcast_message(message):
     #az eredeti üzenet feladója
     sender = message['sender']
@@ -110,7 +129,7 @@ def broadcast_message(message):
     return True
 
 
-#indexoldal (kezdőlap) kérés kezelése - ez szinkron kérés-válasz!
+#indexoldal (kezdőlap) kérés kezelése - ez szinkron kérés-válasz! - kész
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -118,7 +137,7 @@ def index():
 
 #asszinkron kérések kezelése
 
-#belépések kezelése
+#belépések kezelése - kész
 @socket.on('login')
 def login(data):
     uname = data['username']
@@ -149,6 +168,8 @@ def login(data):
         #hibaüzenetet küldünk
         emit('error', render_template('errormessage.html', message='Válassz másik nevet!'))
 
+    #függvény vége
+
 
 #kilépés kezelése
 @socket.on('logout')
@@ -168,7 +189,8 @@ def logout(data):
     '''message = {'event':103, 'username': uname}
     send_broadcast(message)'''
 
-#hibaüzenet kérelmek kezelése
+
+#hibaüzenet kérelmek kezelése - kész
 @socket.on('req_error')
 def error(data):
     #kinyerjük a hibaüzenetet
@@ -177,10 +199,11 @@ def error(data):
     page = render_template('errormessage.html', message=message)
     #elküldjük a kódot, a többit a kliens kezeli
     emit('error', page)
+    #függvény vége
+    return True
 
 
-#új üzenetek kezelése
-#eseménykódok!!!
+#eseménykódok
 #1XX - szerveroldali események
 #101 - új üzenet a beszélgetésfolyamba
 #102 - felhasználóváltozás a felhasználóblokkban-belépés
@@ -190,10 +213,13 @@ def error(data):
 #201 - új üzenet küldése mindenkinek
 #203 - kliens kilépett
 #210 - kliens lekéri a felhasználólistát
+
+
+#új üzenetek kezelése - ide kellenek az eseménykódok - event dispatcher
 @socket.on('newmessage')
 def newmessage(data):
     print(data)
-    if data['event'] == 201:  #egyik kliens üzenetet küldött data={event, sender, message}
+    if data['event'] == 201:  #egyik kliens üzenetet küldött
         broadcast_message(data)
         return
     if data['event'] == 210:  #Egy kliens lekéri a felhasználólistát
