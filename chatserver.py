@@ -40,7 +40,18 @@ def send_broadcast(message):
         socket.emit('newmessage', message,  room=user['sid'])
     return True
 
-def broadcast_message(message):
+
+def send_broadcast_byserver(message):
+    now = datetime.now()
+    timestamp = now.strftime('%Y.%b-%d.,%H:%M')
+    row = render_template('message_temp.html', message=message, server=1, timestamp=timestamp)
+    message = {'event': 101, 'htm': row}
+    for user in users:
+        socket.emit('newmessage', message,  room=user['sid'])
+    return True
+
+
+def broadcast_message(message, event):
     for user in users:
         now = datetime.now()
         timestamp = now.strftime('%Y.%b-%d.,%H:%M')
@@ -50,7 +61,7 @@ def broadcast_message(message):
         else:
             row = render_template('message_temp.html', message=message['message'], username=message['sender'], timestamp=timestamp)
 
-        message = {'event': 101, 'htm': row}
+        message = {'event': event, 'htm': row}  #új elem a beszélgetés folyamba
 
         socket.emit('newmessage', message,  room=user['sid'])
     return True
@@ -82,11 +93,8 @@ def login(data):
         emit('login', data)
 
         #megjelenítjük a szobában az értesítést
-        now = datetime.now()
-        timestamp = now.strftime('%Y.%b-%d.,%H:%M')
-        row = render_template('message_temp.html', message=uname+' csatlakozott a beszélgetéshez!', server=1, timestamp=timestamp)
-        message = {'event':101, 'htm':row}
-        send_broadcast(message)
+
+        send_broadcast_byserver(uname + ' csatlakozott a beszélgetéshez', 101)
 
         #hozzáadjuk a felhasználót a felhasználólistába
         row = render_template('user_temp.html', username=uname)
@@ -138,7 +146,7 @@ def error(data):
 #201 - új üzenet küldése mindenkinek
 @socket.on('newmessage')
 def newmessage(data):
-    if data['event'] == 201:
+    if data['event'] == 201:  #egyik kliens üzenetet küldött data={evet, sender, message}
         broadcast_message(data)
 
 
