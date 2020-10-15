@@ -114,7 +114,8 @@ $('#send_icon').click(function(){
 
     else{
         //ha van benne szöveg, be is vagyunk jelentkezve, elküldjük a szervernek a felhasználónévvel
-        send_message('newmessage', {event:201 , sender: username, message: $('#ac_message').val()})
+        //send_message('newmessage', {event:201 , sender: username, message: $('#ac_message').val()})
+        console.log('sdfgfgf');
         //és kitöröljük az input tartalmát
         $('#ac_message').val('');
         $('#counter').text('(25)');

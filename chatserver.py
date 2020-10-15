@@ -94,7 +94,7 @@ def login(data):
 
         #megjelenítjük a szobában az értesítést
 
-        send_broadcast_byserver(uname + ' csatlakozott a beszélgetéshez', 101)
+        send_broadcast_byserver(uname + ' csatlakozott a beszélgetéshez')
 
         #hozzáadjuk a felhasználót a felhasználólistába
         row = render_template('user_temp.html', username=uname)
@@ -146,6 +146,7 @@ def error(data):
 #201 - új üzenet küldése mindenkinek
 @socket.on('newmessage')
 def newmessage(data):
+    print(data)
     if data['event'] == 201:  #egyik kliens üzenetet küldött data={evet, sender, message}
         broadcast_message(data)
 
