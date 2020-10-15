@@ -81,20 +81,32 @@ def send_broadcast_byserver(message):
 def broadcast_message(message):
     #az eredeti üzenet feladója
     sender = message['sender']
+
     #az eredeti üzenet szövege
     m = message['message']
-    for user in users:
-        now = datetime.now()
-        timestamp = now.strftime('%Y.%b-%d.,%H:%M')
 
+    # időbélyeg létrehozása és formázása
+    now = datetime.now()
+    timestamp = now.strftime('%Y.%b-%d.,%H:%M')
+
+    #végigmegyünk minden felhasználón (nem úúúúúgy!)
+    for user in users:
+
+        #ha a felhasználó a küldő
         if user['username'] == sender:
             row = render_template('message_temp.html', message=m, timestamp=timestamp)
+
+        #ha a felhasználó nem a küldő
         else:
             row = render_template('message_temp.html', message=m, username=sender, timestamp=timestamp)
 
-        message = {'event': 101, 'htm': row}  #új elem a beszélgetés folyamba
+        # az új elem a beszélgetés folyamba és az eseménydódja, ami 101 (ld. kódlista!)
+        message = {'event': 101, 'htm': row}
 
+        #üzenet küldése a felhasználónak
         socket.emit('newmessage', message,  room=user['sid'])
+
+    #függvény vége
     return True
 
 
