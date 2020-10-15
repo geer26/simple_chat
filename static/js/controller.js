@@ -52,7 +52,6 @@ socket.on('newmessage', function(data){
             adduser(data);
             break;
         case 103:
-            //console.log(data);
             deluser(data['username']);
             break;
         case 110:
@@ -119,14 +118,16 @@ socket.on('login', function(data){
 });
 
 
-//kilépés kezelése
+//kilépés kezelése - kész
 $('#logout').click(function(){
 
     //üzenet összeállítása és elküldése a szervernek
     var message = {event: 299, username:username};
     send_message('newmessage', message)
 
-    //kérdés: kiürítsük a tárolókat?
+    //a tárolók kiürítése
+    $('#users').empty();
+    $('#messages').empty();
 
     //belépésgomb és felhasználónév input megjelenítése
     username = '';
