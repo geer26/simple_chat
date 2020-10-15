@@ -108,12 +108,12 @@ $('#ac_message').keydown(function(event){
 
 //bejövő hibaüzenet, az 'error' eseménynévvel azonosítjuk - kész
 socket.on('error', function(data){
-    $('#if').children().hide();
-    $('#if').append(data);
+    $('#user_interface').children().hide();
+    $('#user_interface').append(data);
     $('#error_modal').show();
     $('#cancel_error').click(function(){
         $('#error_modal').remove();
-        $('#if').children().show();
+        $('#user_interface').children().show();
     });
 });
 
