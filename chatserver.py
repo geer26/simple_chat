@@ -48,7 +48,7 @@ def broadcast_message(message):
         if user['username'] == message['sender']:
             row = render_template('message_temp.html', message=message['message'], timestamp=timestamp)
         else:
-            row = render_template('message_temp.html', message=message['message'], username=message['username'], timestamp=timestamp)
+            row = render_template('message_temp.html', message=message['message'], username=message['sender'], timestamp=timestamp)
 
         message = {'event': 101, 'htm': row}
 
@@ -104,9 +104,18 @@ def login(data):
 def logout(data):
     uname = data['username']
     deluser(uname)
-    #megjelenítjük a szobában az értesítést
-    #eltávolítjuk a felhasználót a felhasználólistából
 
+    #megjelenítjük a szobában az értesítést
+    now = datetime.now()
+    timestamp = now.strftime('%Y.%b-%d.,%H:%M')
+    row = render_template('message_temp.html', message=uname + ' kilépett a beszélgetésből!', server=1,
+                          timestamp=timestamp)
+    message = {'event': 101, 'htm': row}
+    send_broadcast(message)
+
+    #eltávolítjuk a felhasználót a felhasználólistából
+    message = {'event':103, 'username': uname}
+    send_broadcast(message)
 
 #hibaüzenet kérelmek kezelése
 @socket.on('req_error')

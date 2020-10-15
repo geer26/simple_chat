@@ -58,7 +58,7 @@ body{
     margin: 0;
     height: 100%;
     width: 15vw;
-    font-size: 2vw;
+    font-size: 1vw;
     overflow: auto;
     font-size: 3vh;
 }
@@ -103,7 +103,7 @@ body{
 
 .icon:hover{
     height: 8vh;
-    top: -60%;
+    top: -65%;
 }
 
 .inputbox{

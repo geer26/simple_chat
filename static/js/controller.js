@@ -29,7 +29,7 @@ $( document ).ready(function(){
 // 2XX - kliensoldali események
 // 201 - új üzenet küldése mindenkinek
 socket.on('newmessage', function(data){
-    console.log('SERVER SENT NEWMESSAGE: ' + data);
+    //console.log('SERVER SENT NEWMESSAGE: ' + data);
     switch (data['event']){
         case 101:
             showmessage(data);
@@ -38,11 +38,20 @@ socket.on('newmessage', function(data){
             adduser(data);
             break;
         case 103:
-            deluser(data);
+            deluser(data['username']);
             break;
     }
 });
 
+$('#ac_message').keyup(function(){
+    var l = 25-$('#ac_message').val().length;
+    if( l <= 0 ){
+        var str = $('#ac_message').val();
+        $('#ac_message').val(str.slice(0,25));
+    }
+    l = 25-$('#ac_message').val().length;
+    $('#counter').text("(" + l + ")");
+});
 
 //bejövő hibaüzenet, az 'error' eseménynévvel azonosítjuk
 socket.on('error', function(data){
@@ -80,10 +89,15 @@ socket.on('login', function(data){
 
 //kilépés kezelése
 $('#logout').click(function(){
+    //console.log('LOGOUT');
+    if (username != ''){
+        send_message('logout', {username:username});
+    } else{
+        //HIBA! BE SINCS JELENTKEZVE!
+    }
 
-    console.log('LOGOUT');
-    send_message('logout', {username:username});
 });
+
 
 //az üzenetküldés eseményvezérlője
 $('#send_icon').click(function(){
@@ -100,9 +114,10 @@ $('#send_icon').click(function(){
 
     else{
         //ha van benne szöveg, be is vagyunk jelentkezve, elküldjük a szervernek a felhasználónévvel
-        send_message('newmessage', {event:201 ,sender: username, message: $('#ac_message').val()})
+        send_message('newmessage', {event:201 , sender: username, message: $('#ac_message').val()})
         //és kitöröljük az input tartalmát
         $('#ac_message').val('');
+        $('#counter').text('(25)');
     }
 });
 
@@ -125,6 +140,7 @@ function send_message(e_name,message){
     socket.emit(e_name,message);
 };
 
+
 //másik felhasználó belép, hozzáadás a felhasználói blokkba
 function adduser(data){
     $('#users').append(data['htm'])
@@ -133,6 +149,8 @@ function adduser(data){
 
 //másik felhasználó kilép, eltávolítás a felhasználói blokkból
 function deluser(data){
+    username='';
+    $('#users').remove($('#data'));
 };
 
 
