@@ -27,14 +27,18 @@ def check_usernames(username):
     return False
 
 
-#eltávolítja a felhasználót a tárolóból
+#eltávolítja a felhasználót a tárolóból és értesíti a többi klienst
 def deluser(username):
     for user in users:
         if user['username'] == username:
             users.remove(user)
 
-            #és küld a többi kliensnek egy üzenetet, hogy kit kell eltávolítani a felhasználók listájából
+            #szerver értesítés megjelenítése
+            send_broadcast_byserver(username + ' kilépett a beszélgetésből!')
+
+            #üzenetet a többi kliensnek, hogy kit kell eltávolítani a felhasználók listájából
             message = {'event': 103, 'username': username}
+            send_broadcast(message)
 
             #függvény vége
             return True
@@ -219,24 +223,22 @@ def error(data):
 
 #2XX - kliensoldali események
 #201 - új üzenet küldése mindenkinek
-#203 - kliens kilép
 #210 - kliens lekéri a felhasználólistát
+#299 - a kliens kilép (felhasználónévvel!)
 
 
-#új BEJÖVŐ!!! üzenetek kezelése - ide kellenek az eseménykódok - event dispatcher
+#új BEJÖVŐ!!! üzenetek kezelése - ide kellenek az eseménykódok - EVENT DISPATCHER!!!
 @socket.on('newmessage')
 def newmessage(data):
     if data['event'] == 201:  #egyik kliens üzenetet küldött
         broadcast_message(data)
-        return
+        return True
     if data['event'] == 210:  #Egy kliens lekéri a felhasználólistát
         send_userlist(data['username'])
-        return
+        return True
     if data['event'] == 299:  #egy kliens kilép
-        print('Valaki kilépett!')
-        print(data)
         deluser(data['username'])
-        return
+        return True
 
 
 

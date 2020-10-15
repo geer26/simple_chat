@@ -37,7 +37,6 @@ $(window).on('beforeunload', function(){
 
 //2XX - kliensoldali események
 //201 - új üzenet küldése mindenkinek
-//203 - kliens kilép
 //210 - kliens lekéri a felhasználólistát
 //299 - a kliens kilép (felhasználónévvel!)
 
@@ -53,6 +52,7 @@ socket.on('newmessage', function(data){
             adduser(data);
             break;
         case 103:
+            //console.log(data);
             deluser(data['username']);
             break;
         case 110:
@@ -119,9 +119,21 @@ socket.on('login', function(data){
 });
 
 
-//kilépés kezelése XXXXXXX
+//kilépés kezelése
 $('#logout').click(function(){
-    console.log('LOGOUT');
+
+    //üzenet összeállítása és elküldése a szervernek
+    var message = {event: 299, username:username};
+    send_message('newmessage', message)
+
+    //kérdés: kiürítsük a tárolókat?
+
+    //belépésgomb és felhasználónév input megjelenítése
+    username = '';
+    $('#logout').hide();
+    $('#uname').show();
+    $('#uname').val('');
+    $('#login').show();
 });
 
 
@@ -175,6 +187,7 @@ function adduser(data){
 
 //a paraméterként kapott id-jű elem eltávolítása a felhasználók blokkból
 function deluser(data){
+    console.log('HELLO! ' + data + ' should be removed!');
     $('#users').remove($('#data'));
 };
 
