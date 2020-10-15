@@ -188,7 +188,7 @@ function adduser(data){
 //a paraméterként kapott id-jű elem eltávolítása a felhasználók blokkból
 function deluser(data){
     console.log('HELLO! ' + data + ' should be removed!');
-    $('#data').remove();
+    //$('#data').remove();
     document.getElementById(data).remove();
 };
 
