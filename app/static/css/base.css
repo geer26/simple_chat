@@ -235,7 +235,7 @@ body{
 
 .ownmessage{
     display: block;
-    margin: auto;
+    float: right;
     width: fit-content;
     font-size: 1.5vh;
     padding: 2px;
