@@ -85,7 +85,7 @@ $('#ac_message').keydown(function(event){
             send_message('newmessage', {event:201 , sender:username, message: $('#ac_message').val()})
             //és kitöröljük az input tartalmát
             $('#ac_message').val('');
-            $('#counter').text('(25)');
+            $('#counter').text('(40)');
         }
         return;
     };
@@ -186,7 +186,7 @@ $('#send_icon').click(function(){
         send_message('newmessage', {event:201 , sender:username, message: $('#ac_message').val()})
         //és kitöröljük az input tartalmát
         $('#ac_message').val('');
-        $('#counter').text('(25)');
+        $('#counter').text('(40)');
     }
 });
 

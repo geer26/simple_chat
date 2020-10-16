@@ -10,6 +10,9 @@ app = Flask(__name__)
 #az asszinkron kéréskezelő példányosítása és a szerverhez csatolása
 socket = SocketIO(app)
 
+#???????????
+socket.init_app(app, cors_allowed_origins="*")
+
 #felhasználók listájának létrehozása
 users = []
 
